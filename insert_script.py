@@ -80,8 +80,7 @@ with open('Publis.sql', 'w') as f:
     for publication in publications:
         if isinstance(publication['author'], list):
             for author in publication['author']:
-                # author index
-                index = authors.index(author)
+                index = authors.index(author)+1
                 sql = f"INSERT INTO publication_authors (id, publication_id, author_id) VALUES ({publication_authors_id}, {int(publication['_id'])}, {index});\n"
                 f.write(sql)
                 publication_authors_id += 1
