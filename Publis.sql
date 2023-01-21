@@ -89,7 +89,7 @@ INSERT INTO publication_authors (id, publication_id, author_id) VALUES (27, 15, 
 INSERT INTO publication_authors (id, publication_id, author_id) VALUES (28, 14, 13);
 INSERT INTO publication_authors (id, publication_id, author_id) VALUES (29, 14, 2);
 INSERT INTO publication_authors (id, publication_id, author_id) VALUES (30, 14, 1);
-INSERT INTO publication_authors (id, publication_id, author_id) VALUES (31, 13, 0);
+INSERT INTO publication_authors (id, publication_id, author_id) VALUES (31, 13, 1);
 INSERT INTO publication_authors (id, publication_id, author_id) VALUES (32, 12, 1);
 INSERT INTO publication_authors (id, publication_id, author_id) VALUES (33, 12, 2);
 INSERT INTO publication_authors (id, publication_id, author_id) VALUES (34, 12, 14);
