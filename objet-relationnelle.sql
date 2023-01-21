@@ -13,6 +13,8 @@ CREATE TABLE publications (
   pages INT,
   year INT,
   booktitle VARCHAR(255),
+  volume INT,
+  journal VARCHAR(255),
   num INT,
   url VARCHAR(255)
 );
