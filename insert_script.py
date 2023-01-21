@@ -34,9 +34,10 @@ with open('Publis.sql', 'w') as f:
                 value = value["#text"]
             else:
                 value = value
-
+            if isinstance(value, str):
+                value = value.replace("'", '"')
             fields += key + ','
-            values += (f'"{value}"' if isinstance(value,
+            values += (f"'{value}'" if isinstance(value,
                                                   str) else str(value)) + ','
         fields = fields[:-1]
         values = values[:-1]
@@ -55,7 +56,8 @@ with open('Publis.sql', 'w') as f:
                 authors.append(publication['author'])
     author_id = 1
     for author in authors:
-        sql = f"INSERT INTO authors (id,name) VALUES ({author_id},\"{author}\");\n"
+        author = author.replace("'", '"')
+        sql = f"INSERT INTO authors (id,name) VALUES ({author_id},'{author}');\n"
         f.write(sql)
         author_id += 1
 
@@ -74,10 +76,13 @@ with open('Publis.sql', 'w') as f:
     for publication in publications:
         if isinstance(publication['author'], list):
             for author in publication['author']:
-                sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, (SELECT id FROM authors WHERE name = \"{author}\"));\n"
+                author = author.replace("'", '"')
+                sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, (SELECT id FROM authors WHERE name = '{author}'));\n"
                 f.write(sql)
         else:
-            sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, (SELECT id FROM authors WHERE name = \"{publication['author']}\"));\n"
+            author =publication['author']
+            author = author.replace("'", '"')
+            sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, (SELECT id FROM authors WHERE name = '{author}'));\n"
             f.write(sql)
 
 print("Done!")
