@@ -9,3 +9,6 @@ Objet-Relationnel: Les bases de données Objet-Relationnelles (ORDBMS) combinent
 Relationnel: Les bases de données relationnelles sont les plus couramment utilisées pour stocker des données structurées organisées en tables. Elles utilisent des relations entre les tables pour organiser les données et permettent des requêtes SQL pour extraire des informations. Les bases de données relationnelles sont soumises à des contraintes de normalisation et de schéma pour garantir l'intégrité des données.
 
 En résumé, le choix du modèle de données dépend des besoins de l'application en termes de performance, de flexibilité, de scalabilité et de sécurité.
+
+Notons aussi qu'avec le SQL (relationnel et Objet relationnel) on peut exiger des contraintes pour vérifier l'unicité de l'ID, ainsi préservons la cohérence de la bdd.
+à titre d'exemple, le fichier `Publis.json` contient deux publications avec le meme `ID = 1` (meme qu'il est de type string ou l'un est de valeur '1' et l'autre '01') le SQL permet de détecter cette erreur à l'insertion.
