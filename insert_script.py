@@ -23,6 +23,12 @@ with open('Publis.sql', 'w') as f:
                 continue
             if key == "_id":
                 key = "id"
+            if key == "year":
+                key = "pubdate"
+            if key == "type":
+                key= "pubtype"
+            if key=="number":
+                key="num"
             if key == "title" and "#text" in value:
                 value = value["#text"]
             else:
@@ -62,7 +68,7 @@ with open('Publis.sql', 'w') as f:
             else:
                 sql = f"INSERT INTO ee (publication_id, url) VALUES ({publication['_id']},'{publication['ee']}');\n"
                 f.write(sql)
-                
+
     # insert data into publication_authors table
     for publication in publications:
         if isinstance(publication['author'], list):

@@ -13,6 +13,8 @@ CREATE TABLE publications (
   pages INT,
   pubdate INT,
   booktitle VARCHAR(255),
+  crossref VARCHAR(255),
+  school VARCHAR(255),
   volume INT,
   journal VARCHAR(255),
   num INT,
