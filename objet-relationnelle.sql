@@ -1,63 +1,78 @@
--- Create table
 
-CREATE TABLE PUBLICATIONS (
-    ID NUMBER,
-    TYPE VARCHAR2(20),
-    AUTHOR VARCHAR2(200),
-    TITLE VARCHAR2(500),
-    PAGES NUMBER,
-    YEAR NUMBER,
-    VOLUME NUMBER,
-    JOURNAL VARCHAR2(50),
-    EE VARCHAR2(500),
-    URL VARCHAR2(500)
+-- Drop tables
+DROP TABLE IF EXISTS publication_authors;
+DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS ee;
+DROP TABLE IF EXISTS publications;
+
+-- Create tables
+CREATE TABLE publications (
+  id INT PRIMARY KEY,
+  type VARCHAR(255),
+  title VARCHAR(255),
+  pages INT,
+  year INT,
+  booktitle VARCHAR(255),
+  num INT,
+  url VARCHAR(255)
+);
+
+CREATE TABLE ee (
+  id INT PRIMARY KEY,
+  url VARCHAR(255) UNIQUE,
+  publication_id INT,
+  FOREIGN KEY (publication_id) REFERENCES publications(id)
+);
+
+CREATE TABLE authors (
+  id INT PRIMARY KEY,
+  name VARCHAR(255)
+);
+
+CREATE TABLE publication_authors (
+  id INT PRIMARY KEY,
+  publication_id INT,
+  author_id INT,
+  FOREIGN KEY (publication_id) REFERENCES publications(id),
+  FOREIGN KEY (author_id) REFERENCES authors(id)
 );
 
 
--- Load data
+-- Request
 
--- LOAD DATA
--- INFILE 'Publis.json'
--- INTO TABLE PUBLICATIONS
--- FIELDS TERMINATED BY ','
--- (
---     ID,
---     TYPE,
---     AUTHOR,
---     TITLE,
---     PAGES,
---     YEAR,
---     VOLUME,
---     JOURNAL,
---     EE,
---     URL
--- )
+-- Liste de tous les livres (type "Book") :
+SELECT * FROM publications WHERE type = 'Book';
 
-
--- Les requêtes
-
--- Liste de tous les livres (type « Book ») :
-SELECT * FROM PUBLICATIONS WHERE TYPE = 'Book';
 -- Types des publications de l’an 2022 :
-SELECT TYPE FROM PUBLICATIONS WHERE YEAR = 2022;
+SELECT type, COUNT(*) FROM publications WHERE year = 2022 GROUP BY type;
 
 -- Liste des journaux depuis 2008 :
-SELECT * FROM PUBLICATIONS WHERE TYPE = 'Journal' AND YEAR >= 2008;
+SELECT * FROM publications WHERE type = 'Journal' AND year >= 2008;
 
 -- Liste des publications de l’auteur « Yacine Mestoui » :
-SELECT * FROM PUBLICATIONS WHERE AUTHOR = 'Yacine Mestoui';
+SELECT p.* FROM publications p
+INNER JOIN publication_authors pa ON p.id = pa.publication_id
+INNER JOIN authors a ON pa.author_id = a.id
+WHERE a.name = 'Yacine Mestoui';
 
 -- Liste de tous les articles publiés à DaWaK :
-SELECT * FROM PUBLICATIONS WHERE BOOKTITLE = 'DaWaK';
+SELECT * FROM publications WHERE booktitle = 'DaWaK';
 
 -- Liste de tous les auteurs distincts :
-SELECT DISTINCT AUTHOR FROM PUBLICATIONS;
+SELECT DISTINCT name FROM authors;
 
 -- Trier les publications de « Alfredo Cuzzocrea » par année :
-SELECT * FROM PUBLICATIONS WHERE AUTHOR = 'Alfredo Cuzzocrea' ORDER BY YEAR;
+SELECT p.* FROM publications p
+INNER JOIN publication_authors pa ON p.id = pa.publication_id
+INNER JOIN authors a ON pa.author_id = a.id
+WHERE a.name = 'Alfredo Cuzzocrea'
+ORDER BY p.year;
 
 -- Corriger le nom de « Carlos Ordonez 0001 » par « Carlos Ordonez» :
-UPDATE PUBLICATIONS SET AUTHOR = 'Carlos Ordonez' WHERE AUTHOR = 'Carlos Ordonez 0001';
+UPDATE authors SET name = 'Carlos Ordonez' WHERE name = 'Carlos Ordonez 0001';
 
 -- Compter le nombre des publications de « Soumia Benkrid» :
-SELECT COUNT(*) FROM PUBLICATIONS WHERE AUTHOR = 'Soumia Benkrid';
+SELECT COUNT(*) FROM publications p
+INNER JOIN publication_authors pa ON p.id = pa.publication_id
+INNER JOIN authors a ON pa.author_id = a.id
+WHERE a.name = 'Soumia Benkrid';
