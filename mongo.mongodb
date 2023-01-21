@@ -1,0 +1,33 @@
+
+use('DBLP');
+
+db.publis.countDocuments();
+
+// Liste de tous les livres (type « Book ») 
+db.publis.find( { "type": "Book" } )
+
+// Types des publications de l’an 2022 
+db.publis.find( { "year": 2022 }, { "type": 1 } )
+
+// Liste des journaux depuis 2008
+db.publis.find( { "type": "Journal", "year": { $gte: 2008 } } )
+
+// Liste des publications de l’auteur « Yacine Mestoui »
+db.publis.find( { 
+  author: "Yacine Mestoui"
+ } )
+
+// Liste de tous les articles publiés à DaWaK
+db.publis.find( { "booktitle": "DaWaK" } )
+
+// Liste de tous les auteurs distincts
+db.publis.distinct("author")
+
+// Trier les publications de « Alfredo Cuzzocrea » par année
+db.publis.find( { "author": "Alfredo Cuzzocrea" } ).sort( { "year": 1 } )
+
+// Corriger le nom de « Carlos Ordonez 0001 » par « Carlos Ordonez»
+db.publis.updateMany( { "author": "Carlos Ordonez 0001" }, { $set: { "author": "Carlos Ordonez" } } )
+
+// Compter le nombre des publications de « Soumia Benkrid»
+db.publis.count( { "author": "Soumia Benkrid" } )
