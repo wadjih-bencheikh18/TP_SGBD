@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS publications;
 
 -- Create tables
 CREATE TABLE publications (
-  id VARCHAR(10) PRIMARY KEY,
+  id INT PRIMARY KEY,
   pubtype VARCHAR(255),
   title VARCHAR(255),
   pages VARCHAR(30),
