@@ -8,4 +8,4 @@ Objet-Relationnel: Les bases de données Objet-Relationnelles (ORDBMS) combinent
 
 Relationnel: Les bases de données relationnelles sont les plus couramment utilisées pour stocker des données structurées organisées en tables. Elles utilisent des relations entre les tables pour organiser les données et permettent des requêtes SQL pour extraire des informations. Les bases de données relationnelles sont soumises à des contraintes de normalisation et de schéma pour garantir l'intégrité des données.
 
-En résumé, le choix du modèle de données dépend des besoins de l'application en termes de performance, de flex
+En résumé, le choix du modèle de données dépend des besoins de l'application en termes de performance, de flexibilité, de scalabilité et de sécurité.
