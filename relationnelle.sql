@@ -152,3 +152,4 @@ BEGIN
 
    RETURN publications_count;
 END;
+SELECT get_soumia_benkrid_publications_count() FROM DUAL;
