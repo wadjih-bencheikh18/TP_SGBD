@@ -69,9 +69,11 @@ with open('Publis.sql', 'w') as f:
                 for ee in publication['ee']:
                     sql = f"INSERT INTO ee (id, publication_id, url) VALUES ({ee_id}, {int(publication['_id'])},'{ee}');\n"
                     f.write(sql)
+                    ee_id += 1
             else:
                 sql = f"INSERT INTO ee (id, publication_id, url) VALUES ({ee_id}, {int(publication['_id'])},'{publication['ee']}');\n"
                 f.write(sql)
+                ee_id += 1
 
     # insert data into publication_authors table
     publication_authors_id = 1

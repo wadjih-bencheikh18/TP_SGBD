@@ -23,7 +23,7 @@ CREATE TABLE publications (
 
 CREATE TABLE ee (
   id INT PRIMARY KEY,
-  url VARCHAR(255) UNIQUE,
+  url VARCHAR(255),
   publication_id INT,
   FOREIGN KEY (publication_id) REFERENCES publications(id)
 );
