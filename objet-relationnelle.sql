@@ -7,10 +7,10 @@ DROP TABLE IF EXISTS publications;
 
 -- Create tables
 CREATE TABLE publications (
-  id INT PRIMARY KEY,
+  id VARCHAR(10) PRIMARY KEY,
   pubtype VARCHAR(255),
   title VARCHAR(255),
-  pages INT,
+  pages VARCHAR(30),
   pubdate INT,
   booktitle VARCHAR(255),
   crossref VARCHAR(255),

@@ -23,7 +23,6 @@ with open('Publis.sql', 'w') as f:
                 continue
             if key == "_id":
                 key = "id"
-                value = int(value)
             if key == "year":
                 key = "pubdate"
             if key == "type":
@@ -66,10 +65,10 @@ with open('Publis.sql', 'w') as f:
         if 'ee' in publication:
             if isinstance(publication['ee'], list):
                 for ee in publication['ee']:
-                    sql = f"INSERT INTO ee (publication_id, url) VALUES ({publication['_id']},'{ee}');\n"
+                    sql = f"INSERT INTO ee (publication_id, url) VALUES ('{publication['_id']}','{ee}');\n"
                     f.write(sql)
             else:
-                sql = f"INSERT INTO ee (publication_id, url) VALUES ({publication['_id']},'{publication['ee']}');\n"
+                sql = f"INSERT INTO ee (publication_id, url) VALUES ('{publication['_id']}','{publication['ee']}');\n"
                 f.write(sql)
 
     # insert data into publication_authors table
@@ -79,13 +78,13 @@ with open('Publis.sql', 'w') as f:
             for author in publication['author']:
                 # author index
                 index = authors.index(author)
-                sql = f"INSERT INTO publication_authors (id, publication_id, author_id) VALUES ({publication_authors_id}, {int(publication['_id'])}, {index});\n"
+                sql = f"INSERT INTO publication_authors (id, publication_id, author_id) VALUES ({publication_authors_id}, '{publication['_id']}', {index});\n"
                 f.write(sql)
                 publication_authors_id += 1
         else:
             author = publication['author']
             index = authors.index(author)
-            sql = f"INSERT INTO publication_authors (id, publication_id, author_id) VALUES ({publication_authors_id}, {int(publication['_id'])}, {index});\n"
+            sql = f"INSERT INTO publication_authors (id, publication_id, author_id) VALUES ({publication_authors_id}, '{publication['_id']}', {index});\n"
             f.write(sql)
             publication_authors_id += 1
 
