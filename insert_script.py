@@ -24,10 +24,6 @@ with open('Publis.sql', 'w') as f:
             if key == "_id":
                 key = "id"
                 value = int(value)
-            if key == "year":
-                key = "pubdate"
-            if key == "type":
-                key = "pubtype"
             if key == "number":
                 key = "num"
             if key == "title" and "#text" in value:

@@ -8,7 +8,7 @@ BEGIN
   -- Select all books into the nested table variable
   SELECT * BULK COLLECT INTO publications_nt
   FROM publications
-  WHERE pubtype = 'Book';
+  WHERE type = 'Book';
   
   -- Iterate through the nested table and print the data
   FOR i IN 1..publications_nt.COUNT LOOP
