@@ -1,0 +1,173 @@
+-- Create the nested table type for publications
+CREATE TYPE PUBLICATIONS_NTT AS
+  TABLE OF PUBLICATIONS%ROWTYPE;
+ -- Declare a variable of the nested table type
+  DECLARE
+    PUBLICATIONS_NT PUBLICATIONS_NTT;
+  BEGIN
+ -- Select all books into the nested table variable
+    SELECT
+      * BULK COLLECT INTO PUBLICATIONS_NT
+    FROM
+      PUBLICATIONS
+    WHERE
+      TYPE = 'Book';
+ -- Iterate through the nested table and print the data
+    FOR I IN 1..PUBLICATIONS_NT.COUNT LOOP
+      DBMS_OUTPUT.PUT_LINE(PUBLICATIONS_NT(I).ID
+        || ' '
+        || PUBLICATIONS_NT(I).TITLE);
+    END LOOP;
+  END;
+ -- Types des publications de l’an 2022
+  DECLARE
+ -- Declare a nested table type for holding publication types
+    TYPE PUBLICATION_TYPES_NTT IS
+      TABLE OF VARCHAR2(255);
+ -- Declare a variable of the nested table type
+    PUBLICATION_TYPES PUBLICATION_TYPES_NTT;
+  BEGIN
+ -- Insert the unique types of publications from the year 2022 into the nested table variable
+    SELECT
+      DISTINCT TYPE INTO PUBLICATION_TYPES
+    FROM
+      PUBLICATIONS
+    WHERE
+      YEAR = 2022;
+ -- Print out the publication types
+    FOR I IN 1 .. PUBLICATION_TYPES.COUNT LOOP
+      DBMS_OUTPUT.PUT_LINE(PUBLICATION_TYPES(I));
+    END LOOP;
+  END;
+ -- la liste des journaux depuis 2008
+  DECLARE
+    TYPE JOURNAL_LIST IS
+      TABLE OF PUBLICATIONS.JOURNAL%TYPE;
+    JOURNALS JOURNAL_LIST;
+  BEGIN
+    SELECT
+      DISTINCT JOURNAL INTO JOURNALS
+    FROM
+      PUBLICATIONS
+    WHERE
+      YEAR >= 2008;
+    FOR I IN 1 .. JOURNALS.COUNT LOOP
+      DBMS_OUTPUT.PUT_LINE(JOURNALS(I));
+    END LOOP;
+  END;
+ -- Liste des publications de l’auteur « Yacine Mestoui »
+  DECLARE
+    TYPE PUBLICATION_LIST IS
+      TABLE OF PUBLICATIONS%ROWTYPE;
+    PUBLICATIONS_BY_AUTHOR PUBLICATION_LIST;
+  BEGIN
+    SELECT
+      * BULK COLLECT INTO PUBLICATIONS_BY_AUTHOR
+    FROM
+      PUBLICATIONS
+      JOIN PUBLICATION_AUTHORS
+      ON PUBLICATIONS.ID = PUBLICATION_AUTHORS.PUBLICATION_ID JOIN AUTHORS
+      ON PUBLICATION_AUTHORS.AUTHOR_ID = AUTHORS.ID
+    WHERE
+      AUTHORS.NAME = 'Yacine Mestoui';
+    FOR I IN 1..PUBLICATIONS_BY_AUTHOR.COUNT LOOP
+      DBMS_OUTPUT.PUT_LINE(PUBLICATIONS_BY_AUTHOR(I).TITLE);
+    END LOOP;
+  END;
+ -- Liste de tous les articles publiés à DaWaK
+  DECLARE
+    TYPE PUBLICATION_LIST IS
+      TABLE OF PUBLICATIONS%ROWTYPE;
+    PUBLICATIONS_DA_WAK PUBLICATION_LIST;
+  BEGIN
+    SELECT
+      * BULK COLLECT INTO PUBLICATIONS_DA_WAK
+    FROM
+      PUBLICATIONS
+    WHERE
+      BOOKTITLE = 'DaWaK';
+    FOR I IN 1..PUBLICATIONS_DA_WAK.COUNT LOOP
+      DBMS_OUTPUT.PUT_LINE(PUBLICATIONS_DA_WAK(I).TITLE);
+    END LOOP;
+  END;
+ -- liste de tous les auteurs distincts
+  DECLARE
+    TYPE AUTHOR_LIST IS
+      TABLE OF AUTHORS.NAME%TYPE;
+    ALL_AUTHORS AUTHOR_LIST;
+  BEGIN
+    SELECT
+      DISTINCT NAME BULK COLLECT INTO ALL_AUTHORS
+    FROM
+      AUTHORS;
+    FOR I IN 1..ALL_AUTHORS.COUNT LOOP
+      DBMS_OUTPUT.PUT_LINE(ALL_AUTHORS(I));
+    END LOOP;
+  END;
+ -- Afficher les publications de « Alfredo Cuzzocrea » Trier  par année
+  DECLARE
+    TYPE PUBLICATIONS_T IS
+      TABLE OF PUBLICATIONS%ROWTYPE;
+    PUBLICATIONS_LIST PUBLICATIONS_T;
+  BEGIN
+    SELECT
+      * BULK COLLECT INTO PUBLICATIONS_BY_AUTHOR
+    FROM
+      PUBLICATIONS
+      JOIN PUBLICATION_AUTHORS
+      ON PUBLICATIONS.ID = PUBLICATION_AUTHORS.PUBLICATION_ID JOIN AUTHORS
+      ON PUBLICATION_AUTHORS.AUTHOR_ID = AUTHORS.ID
+    WHERE
+      NAME = 'Alfredo Cuzzocrea'
+    ORDER BY
+      YEAR;
+ -- Do something with the sorted list of publications
+    FOR I IN 1..PUBLICATIONS_LIST.COUNT LOOP
+ -- access the i-th element of the list
+      DBMS_OUTPUT.PUT_LINE(PUBLICATIONS_LIST(I).YEAR
+        || ': '
+        || PUBLICATIONS_LIST(I).TITLE);
+    END LOOP;
+  END;
+ -- Corriger le nom de « Carlos Ordonez 0001 » par « Carlos Ordonez»
+  CREATE OR REPLACE FUNCTION CORRECT_AUTHOR_NAME (
+    P_AUTHOR_NAME IN VARCHAR2
+  ) RETURN VARCHAR2 AS
+    CORRECTED_NAME VARCHAR2(
+      255
+    );
+    BEGIN
+ -- utiliser une instruction CASE pour corriger le nom de l'auteur
+      CASE P_AUTHOR_NAME
+        WHEN 'Carlos Ordonez 0001' THEN
+          CORRECTED_NAME := 'Carlos Ordonez'
+ -- ajouter d'autres cas si nécessaire
+        ELSE
+          CORRECTED_NAME := P_AUTHOR_NAME;
+      END CASE;
+      RETURN CORRECTED_NAME;
+    END;
+    UPDATE AUTHORS
+    SET
+      NAME = CORRECT_AUTHOR_NAME(
+        NAME
+      )
+ -- Compter le nombre des publications de « Soumia Benkrid»
+      CREATE
+      OR REPLACE FUNCTION GET_SOUMIA_BENKRID_PUBLICATIONS_COUNT RETURN INTEGER AS PUBLICATIONS_COUNT INTEGER;
+    BEGIN
+      SELECT
+        COUNT(*) INTO PUBLICATIONS_COUNT
+      FROM
+        PUBLICATIONS P
+        JOIN PUBLICATION_AUTHORS PA
+        ON P.ID = PA.PUBLICATION_ID JOIN AUTHORS A
+        ON PA.AUTHOR_ID = A.ID
+      WHERE
+        A.NAME = 'Soumia Benkrid';
+      RETURN PUBLICATIONS_COUNT;
+    END;
+    SELECT
+      GET_SOUMIA_BENKRID_PUBLICATIONS_COUNT()
+    FROM
+      DUAL;
