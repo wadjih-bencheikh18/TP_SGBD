@@ -76,13 +76,14 @@ with open('Publis.sql', 'w') as f:
     for publication in publications:
         if isinstance(publication['author'], list):
             for author in publication['author']:
-                author = author.replace("'", '"')
-                sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, (SELECT id FROM authors WHERE name = '{author}'));\n"
+                # author index
+                index = authors.index(author)
+                sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, {index});\n"
                 f.write(sql)
         else:
-            author =publication['author']
-            author = author.replace("'", '"')
-            sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, (SELECT id FROM authors WHERE name = '{author}'));\n"
+            author = publication['author']
+            index = authors.index(author)
+            sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, {index});\n"
             f.write(sql)
 
 print("Done!")
