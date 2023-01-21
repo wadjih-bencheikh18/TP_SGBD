@@ -1,7 +1,7 @@
 -- Create table
 
 CREATE TABLE PUBLICATIONS (
-    _ID NUMBER,
+    ID NUMBER,
     TYPE VARCHAR2(20),
     AUTHOR VARCHAR2(200),
     TITLE VARCHAR2(500),
@@ -16,22 +16,22 @@ CREATE TABLE PUBLICATIONS (
 
 -- Load data
 
-LOAD DATA
-INFILE 'Publis.json'
-INTO TABLE PUBLICATIONS
-FIELDS TERMINATED BY ','
-(
-    _ID,
-    TYPE,
-    AUTHOR,
-    TITLE,
-    PAGES,
-    YEAR,
-    VOLUME,
-    JOURNAL,
-    EE,
-    URL
-)
+-- LOAD DATA
+-- INFILE 'Publis.json'
+-- INTO TABLE PUBLICATIONS
+-- FIELDS TERMINATED BY ','
+-- (
+--     ID,
+--     TYPE,
+--     AUTHOR,
+--     TITLE,
+--     PAGES,
+--     YEAR,
+--     VOLUME,
+--     JOURNAL,
+--     EE,
+--     URL
+-- )
 
 
 -- Les requêtes
