@@ -8,10 +8,10 @@ DROP TABLE IF EXISTS publications;
 -- Create tables
 CREATE TABLE publications (
   id INT PRIMARY KEY,
-  type VARCHAR(255),
+  pubtype VARCHAR(255),
   title VARCHAR(255),
   pages INT,
-  year INT,
+  pubdate INT,
   booktitle VARCHAR(255),
   volume INT,
   journal VARCHAR(255),
@@ -43,13 +43,13 @@ CREATE TABLE publication_authors (
 -- Request
 
 -- Liste de tous les livres (type "Book") :
-SELECT * FROM publications WHERE type = 'Book';
+SELECT * FROM publications WHERE pubtype = 'Book';
 
 -- Types des publications de l’an 2022 :
-SELECT type, COUNT(*) FROM publications WHERE year = 2022 GROUP BY type;
+SELECT pubtype, COUNT(*) FROM publications WHERE pubdate = 2022 GROUP BY pubtype;
 
 -- Liste des journaux depuis 2008 :
-SELECT * FROM publications WHERE type = 'Journal' AND year >= 2008;
+SELECT * FROM publications WHERE pubtype = 'Journal' AND pubdate >= 2008;
 
 -- Liste des publications de l’auteur « Yacine Mestoui » :
 SELECT p.* FROM publications p
@@ -68,7 +68,7 @@ SELECT p.* FROM publications p
 INNER JOIN publication_authors pa ON p.id = pa.publication_id
 INNER JOIN authors a ON pa.author_id = a.id
 WHERE a.name = 'Alfredo Cuzzocrea'
-ORDER BY p.year;
+ORDER BY p.pubdate;
 
 -- Corriger le nom de « Carlos Ordonez 0001 » par « Carlos Ordonez» :
 UPDATE authors SET name = 'Carlos Ordonez' WHERE name = 'Carlos Ordonez 0001';
