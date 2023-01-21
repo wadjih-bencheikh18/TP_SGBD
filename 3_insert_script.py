@@ -5,7 +5,7 @@ with open('Publis.json', 'r') as f:
     publications = json.load(f)
 
 # create a new file to store the SQL statements
-with open('Publis.sql', 'w') as f:
+with open('insert_data.sql', 'w') as f:
     # insert data into publications table
     for publication in publications:
         # clone and remove title and ee fields and value from publication
