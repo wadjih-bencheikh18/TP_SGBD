@@ -73,17 +73,21 @@ with open('Publis.sql', 'w') as f:
                 f.write(sql)
 
     # insert data into publication_authors table
+    publication_authors_id = 0
     for publication in publications:
         if isinstance(publication['author'], list):
             for author in publication['author']:
                 # author index
                 index = authors.index(author)
-                sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, {index});\n"
+                sql = f"INSERT INTO publication_authors (id, publication_id, author_id) VALUES ({publication_authors_id}, {int(publication['_id'])}, {index});\n"
                 f.write(sql)
+                publication_authors_id += 1
         else:
             author = publication['author']
             index = authors.index(author)
-            sql = f"INSERT INTO publication_authors (publication_id, author_id) VALUES ({publication['_id']}, {index});\n"
+            sql = f"INSERT INTO publication_authors (id, publication_id, author_id) VALUES ({publication_authors_id}, {int(publication['_id'])}, {index});\n"
             f.write(sql)
+            publication_authors_id += 1
+
 
 print("Done!")
