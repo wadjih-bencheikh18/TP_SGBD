@@ -26,9 +26,9 @@ with open('Publis.sql', 'w') as f:
             if key == "year":
                 key = "pubdate"
             if key == "type":
-                key= "pubtype"
-            if key=="number":
-                key="num"
+                key = "pubtype"
+            if key == "number":
+                key = "num"
             if key == "title" and "#text" in value:
                 value = value["#text"]
             else:
@@ -36,12 +36,12 @@ with open('Publis.sql', 'w') as f:
 
             fields += key + ','
             values += (f'"{value}"' if isinstance(value,
-                                                 str) else str(value)) + ','
+                                                  str) else str(value)) + ','
         fields = fields[:-1]
         values = values[:-1]
         sql = f'INSERT INTO publications ({fields}) VALUES ({values});\n'
         f.write(sql)
-        
+
     # insert data into authors table
     authors = []
     for publication in publications:
